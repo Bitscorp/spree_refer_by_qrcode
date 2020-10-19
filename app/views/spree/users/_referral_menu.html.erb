@@ -1,0 +1,47 @@
+<div class="account-page-orders row">
+  <div class="col-xs-12 col-lg-6">
+    <h3 class="text-uppercase spree-mb-medium spree-mt-medium spree-header" ><%= t(:referral_code) %></h3>
+    <div class="row">
+      <%= link_to spree.qr_code_user_path(@user), class: 'mx-auto', target: 'blank' do %>
+        <%= image_tag @qr.as_png(border_modules: 1, size: 400).to_data_url, class: "img-fluid", alt: spree.qr_code_user_path(@user) %>
+      <% end %>
+    </div>
+    <div class="mt-2 text-center">
+      <%= spree.signup_url(refer_token: @user.refer_token) %>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-lg-6 table-responsive">
+    <h3 class="text-uppercase spree-mb-medium spree-mt-medium spree-header" ><%= t(:referred_users) %></h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-uppercase text-secondary"><%= Spree::User.human_attribute_name(:email) %></th>
+          <th class="text-uppercase text-secondary"><%= Spree.t(:date) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @referrals.each do |referral| %>
+          <tr>
+            <td class="text-primary"><%= referral.email %></td>
+            <td class=""><%= l referral.created_at.to_date %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if @referrals.respond_to?(:total_pages) %>
+      <div class="row pl-md-4 pl-sm-4">
+        <div class="col-12">
+          <div class="plp-pagination d-none d-lg-flex">
+            <%= paginate @referrals, window: 2, theme: 'twitter-bootstrap-4' %>
+          </div>
+
+          <div class="plp-pagination d-lg-none">
+            <%= paginate @referrals, window: 1, theme: 'twitter-bootstrap-4' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<% @body_id = 'signup' %>
+<%= render partial: 'spree/shared/error_messages', locals: { target: @user } %>
+<div class="col-lg-6 offset-lg-3">
+  <h3 class="spree-header spree-mb-large spree-mt-large"><%= Spree.t(:new_customer) %></h3>
+  <div id="new-customer" data-hook="login">
+    <%= form_for resource, as: :spree_user, url: spree.registration_path(refer_token: params[:refer_token]) do |f| %>
+      <div data-hook="signup_inside_form">
+        <%= render partial: 'spree/shared/user_form', locals: { f: f, remember_me_field: true } %>
+        <div><%= f.submit Spree.t(:sign_up), class: 'btn btn-primary btn-block spree-btn mb-5' %></div>
+      </div>
+    <% end %>
+    <div data-hook="login_extras"></div>
+  </div>
+</div>
